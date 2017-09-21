@@ -18,39 +18,39 @@ const SearchController      = require("./controllers/searchController");
 const NotFoundController    = require("./controllers/notFoundController");
 const DocumentParserUtility = require("./utilities/documentParserUtility");
 const SyncController        = require("./controllers/syncController");
-const AuthProvider          = require("./providers/authenticationProvider");
+// const AuthProvider          = require("./providers/authenticationProvider");
 
 let defaultConfig = require("./config.default.js");
 
 /* ----------- HAZEL ------------- */
 class Hazel {
 
-    constructor(config, StorageProvider) {
+    constructor(config) {
         this._server = null;
 
         this._config = defaultConfig;
         if (config) { extend(this._config, config); }
 
-        /* Services, Providers, Utilities, Repositories */
-        this._authProvider          = new AuthProvider(this._config);
-        this._documentParserUtility = new DocumentParserUtility();
-        this._storageProvider       = new StorageProvider(this._config, this._documentParserUtility);
-        this._documentRepository    = new DocumentRepository(this._storageProvider);
-        this._searchProvider        = new SearchProvider(this._documentRepository, this._config);
-        this._analyticsService      = new AnalyticsService(this._storageProvider);
+        // /* Services, Providers, Utilities, Repositories */
+        // this._authProvider          = new AuthProvider(this._config);
+        // this._documentParserUtility = new DocumentParserUtility();
+        // this._storageProvider       = new StorageProvider(this._config, this._documentParserUtility);
+        // this._documentRepository    = new DocumentRepository(this._storageProvider);
+        // this._searchProvider        = new SearchProvider(this._documentRepository, this._config);
+        // this._analyticsService      = new AnalyticsService(this._storageProvider);
 
-        this.setupServer();
+        // this.setupServer();
 
-        // define our authentication method with proper binding
-        let authMethod = this._authProvider.authenticate.bind(this._authProvider);
+        // // define our authentication method with proper binding
+        // let authMethod = this._authProvider.authenticate.bind(this._authProvider);
 
-        /* Controllers */
-        this._homeController        = new HomeController(this._server, this._config, authMethod, this._documentRepository, this._searchProvider, this._analyticsService);
-        this._tagController         = new TagController(this._server, this._config, authMethod, this._documentRepository, this._searchProvider, this._analyticsService);
-        this._searchController      = new SearchController(this._server, this._config, authMethod, this._searchProvider);
-        this._documentController    = new DocumentController(this._server, this._config, authMethod, this._documentRepository, this._analyticsService, this._storageProvider, this._searchProvider, this._documentParserUtility);
-        this._syncController        = new SyncController(this._server, this._config, authMethod, this._documentRepository, this._searchProvider);
-        this._notFoundController    = new NotFoundController(this._server, this._config, authMethod, this._storageProvider);
+        // /* Controllers */
+        // this._homeController        = new HomeController(this._server, this._config, authMethod, this._documentRepository, this._searchProvider, this._analyticsService);
+        // this._tagController         = new TagController(this._server, this._config, authMethod, this._documentRepository, this._searchProvider, this._analyticsService);
+        // this._searchController      = new SearchController(this._server, this._config, authMethod, this._searchProvider);
+        // this._documentController    = new DocumentController(this._server, this._config, authMethod, this._documentRepository, this._analyticsService, this._storageProvider, this._searchProvider, this._documentParserUtility);
+        // this._syncController        = new SyncController(this._server, this._config, authMethod, this._documentRepository, this._searchProvider);
+        // this._notFoundController    = new NotFoundController(this._server, this._config, authMethod, this._storageProvider);
     }
 
     /**
@@ -60,10 +60,35 @@ class Hazel {
         return this._server;
     }
 
+    async setupProviders(StorageProvider, AuthProvider) {
+      /* Services, Providers, Utilities, Repositories */
+      this._authProvider          = new AuthProvider(this._config);
+      this._documentParserUtility = new DocumentParserUtility();
+      this._storageProvider       = new StorageProvider(this._config, this._documentParserUtility);
+      this._documentRepository    = new DocumentRepository(this._storageProvider);
+
+      await this._documentRepository._prepareDocuments();
+
+      this._searchProvider        = new SearchProvider(this._documentRepository, this._config);
+      this._analyticsService      = new AnalyticsService(this._storageProvider);
+    }
+
+    async setupControllers() {
+      // define our authentication method with proper binding
+      let authMethod = this._authProvider.authenticate.bind(this._authProvider);
+
+      this._homeController        = new HomeController(this._server, this._config, authMethod, this._documentRepository, this._searchProvider, this._analyticsService);
+      this._tagController         = new TagController(this._server, this._config, authMethod, this._documentRepository, this._searchProvider, this._analyticsService);
+      this._searchController      = new SearchController(this._server, this._config, authMethod, this._searchProvider);
+      this._documentController    = new DocumentController(this._server, this._config, authMethod, this._documentRepository, this._analyticsService, this._storageProvider, this._searchProvider, this._documentParserUtility);
+      this._syncController        = new SyncController(this._server, this._config, authMethod, this._documentRepository, this._searchProvider);
+      this._notFoundController    = new NotFoundController(this._server, this._config, authMethod, this._storageProvider);
+    }
+
     /**
      * Setup the server
      */
-    setupServer() {
+    async setupServer() {
         this._server = express();
 
         // Setup Views
@@ -83,6 +108,12 @@ class Hazel {
         this._server.use(express.static(this._config.public_dir));
         this._server.use('/uploads', express.static(this._config.uploads_dir));
         this._server.use(bodyParser.urlencoded({ extended: false }));
+    }
+
+    async init(StorageProvider) {
+      await this.setupProviders(StorageProvider);
+      await this.setupServer();
+      await this.setupControllers();
     }
 }
 

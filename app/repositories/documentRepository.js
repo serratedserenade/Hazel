@@ -12,7 +12,10 @@ class DocumentRepository {
 
     constructor(documentStorageProvider) {
         this._storageProvider = documentStorageProvider;
-        this._documents = this._storageProvider.getAllDocuments();
+    }
+
+    async _prepareDocuments() {
+      this._documents = await this._storageProvider.getAllDocuments();
     }
 
     /**

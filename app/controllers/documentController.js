@@ -22,17 +22,17 @@ class DocumentController {
 
     _bindRoutes() {
          // /[slug]/edit
-        this._server.get("/:slug/edit", this._auth, this.edit.bind(this));
+        // this._server.get("/:slug/edit", this._auth, this.edit.bind(this));
         // /[slug]/delete
-        this._server.get("/:slug/delete", this._auth, this.delete.bind(this));
+        // this._server.get("/:slug/delete", this._auth, this.delete.bind(this));
         // /[slug]/save
-        this._server.post("/:slug/save", this._auth, this.save.bind(this));
+        // this._server.post("/:slug/save", this._auth, this.save.bind(this));
         // /new
-        this._server.get("/new", this._auth, this.new.bind(this));
+        // this._server.get("/new", this._auth, this.new.bind(this));
         // /[slug]
         this._server.get("/:slug", this._auth, this.detail.bind(this));
         // /upload
-        this._server.post("/upload", this._auth, this.upload.bind(this));
+        // this._server.post("/upload", this._auth, this.upload.bind(this));
     }
 
     /**
