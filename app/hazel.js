@@ -18,7 +18,7 @@ const SearchController      = require("./controllers/searchController");
 const NotFoundController    = require("./controllers/notFoundController");
 const DocumentParserUtility = require("./utilities/documentParserUtility");
 const SyncController        = require("./controllers/syncController");
-// const AuthProvider          = require("./providers/authenticationProvider");
+const AuthProvider          = require("./providers/authenticationProvider");
 
 let defaultConfig = require("./config.default.js");
 
@@ -60,7 +60,7 @@ class Hazel {
         return this._server;
     }
 
-    async setupProviders(StorageProvider, AuthProvider) {
+    async setupProviders(StorageProvider) {
       /* Services, Providers, Utilities, Repositories */
       this._authProvider          = new AuthProvider(this._config);
       this._documentParserUtility = new DocumentParserUtility();
