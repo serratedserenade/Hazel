@@ -33,6 +33,7 @@ class HomeController {
         viewModel.randomDocuments = this._fetchRandomDocuments(5);
         viewModel.popularDocuments = this._fetchPopularDocuments(5);
         viewModel.siteSections = this._fetchSiteSections();
+        viewModel.allDocuments = this._documents.all();
 
         viewModel.config = this._config;
 
