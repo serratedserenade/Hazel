@@ -48,7 +48,7 @@ class DocumentController {
         // check if no content
         if (!document || document.markdown <= 0) { next(); return; }
 
-        this._analyticsService.updateViewCount(slug);
+        // this._analyticsService.updateViewCount(slug);
         document.html = marked(document.markdown);
 
         viewModel.document = document;
