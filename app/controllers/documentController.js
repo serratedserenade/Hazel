@@ -55,6 +55,7 @@ class DocumentController {
         viewModel.title = document.title;
         viewModel.relatedDocuments = this._fetchRelatedDocuments(viewModel.title, 5);
         viewModel.recentDocuments = this._fetchRecentDocuments(5);
+        viewModel.popularSearches = this._searchProvider.getPopularSearchTerms(5);
         viewModel.config = this._config;
         viewModel.session = req.session;
         

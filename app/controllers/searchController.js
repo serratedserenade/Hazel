@@ -31,6 +31,7 @@ class SearchController {
 
         viewModel.config = this._config;
         viewModel.session = req.session;
+        viewModel.popularSearches = this._searchProvider.getPopularSearchTerms(5);
 
         res.render("search", viewModel);
     }

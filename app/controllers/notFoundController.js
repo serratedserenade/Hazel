@@ -7,11 +7,12 @@ const NotFoundViewModel = require("../models/notFoundViewModel");
  * one of the last controllers in the pipeline
  */
 class NotFoundController {
-    constructor(server, config, authMethod, storageProvider) {
+    constructor(server, config, authMethod, storageProvider, searchProvider) {
         this._server = server;
         this._config = config;
         this._auth = authMethod;
         this._storageProvider = storageProvider;
+        this._searchProvider = searchProvider;
 
         this._bindRoutes();
     }
@@ -32,6 +33,7 @@ class NotFoundController {
         viewModel.title = this._storageProvider.slugToTitle(req.params.slug);
         viewModel.config = this._config;
         viewModel.session = req.session;
+        viewModel.popularSearches = this._searchProvider.getPopularSearchTerms(5);
 
         res.render("404", viewModel);
     }
