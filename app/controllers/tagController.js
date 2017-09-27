@@ -34,6 +34,7 @@ class TagController {
         viewModel.section = _.chain(this._config.site_sections).filter(function(section) { return section.tag == req.params.tag; }).first().value();
 
         viewModel.config = this._config;
+        viewModel.session = req.session;
 
         res.render("tag", viewModel);
     }

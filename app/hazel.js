@@ -30,27 +30,6 @@ class Hazel {
 
         this._config = defaultConfig;
         if (config) { extend(this._config, config); }
-
-        // /* Services, Providers, Utilities, Repositories */
-        // this._authProvider          = new AuthProvider(this._config);
-        // this._documentParserUtility = new DocumentParserUtility();
-        // this._storageProvider       = new StorageProvider(this._config, this._documentParserUtility);
-        // this._documentRepository    = new DocumentRepository(this._storageProvider);
-        // this._searchProvider        = new SearchProvider(this._documentRepository, this._config);
-        // this._analyticsService      = new AnalyticsService(this._storageProvider);
-
-        // this.setupServer();
-
-        // // define our authentication method with proper binding
-        // let authMethod = this._authProvider.authenticate.bind(this._authProvider);
-
-        // /* Controllers */
-        // this._homeController        = new HomeController(this._server, this._config, authMethod, this._documentRepository, this._searchProvider, this._analyticsService);
-        // this._tagController         = new TagController(this._server, this._config, authMethod, this._documentRepository, this._searchProvider, this._analyticsService);
-        // this._searchController      = new SearchController(this._server, this._config, authMethod, this._searchProvider);
-        // this._documentController    = new DocumentController(this._server, this._config, authMethod, this._documentRepository, this._analyticsService, this._storageProvider, this._searchProvider, this._documentParserUtility);
-        // this._syncController        = new SyncController(this._server, this._config, authMethod, this._documentRepository, this._searchProvider);
-        // this._notFoundController    = new NotFoundController(this._server, this._config, authMethod, this._storageProvider);
     }
 
     /**

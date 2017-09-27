@@ -42,6 +42,7 @@ class SyncController {
         viewModel.title = "Sync Documents";
         viewModel.syncKey = this._config.sync_key;
         viewModel.config = this._config;
+        viewModel.session = req.session;
 
         res.render("sync", viewModel);
     }

@@ -36,6 +36,7 @@ class HomeController {
         viewModel.allDocuments = this._documents.all();
 
         viewModel.config = this._config;
+        viewModel.session = req.session;
 
         res.render("home", viewModel);
     }

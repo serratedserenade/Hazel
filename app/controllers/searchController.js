@@ -30,6 +30,7 @@ class SearchController {
         }
 
         viewModel.config = this._config;
+        viewModel.session = req.session;
 
         res.render("search", viewModel);
     }

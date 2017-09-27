@@ -31,6 +31,7 @@ class NotFoundController {
         viewModel.slug = req.params.slug;
         viewModel.title = this._storageProvider.slugToTitle(req.params.slug);
         viewModel.config = this._config;
+        viewModel.session = req.session;
 
         res.render("404", viewModel);
     }
