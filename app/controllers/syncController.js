@@ -43,6 +43,7 @@ class SyncController {
         viewModel.syncKey = this._config.sync_key;
         viewModel.config = this._config;
         viewModel.session = req.session;
+        viewModel.statusCode = req.query.statusCode;
 
         res.render("sync", viewModel);
     }

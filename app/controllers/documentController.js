@@ -58,6 +58,7 @@ class DocumentController {
         viewModel.popularSearches = this._searchProvider.getPopularSearchTerms(5);
         viewModel.config = this._config;
         viewModel.session = req.session;
+        viewModel.statusCode = req.query.statusCode;
         
         // render content
         res.render("document", viewModel);

@@ -37,6 +37,7 @@ class HomeController {
 
         viewModel.config = this._config;
         viewModel.session = req.session;
+        viewModel.statusCode = req.query.statusCode;
 
         res.render("home", viewModel);
     }

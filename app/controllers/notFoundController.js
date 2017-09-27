@@ -34,6 +34,7 @@ class NotFoundController {
         viewModel.config = this._config;
         viewModel.session = req.session;
         viewModel.popularSearches = this._searchProvider.getPopularSearchTerms(5);
+        viewModel.statusCode = req.query.statusCode;
 
         res.render("404", viewModel);
     }
